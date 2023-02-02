@@ -1,13 +1,31 @@
-import React, { useState } from "react";
-import { Modal, View, Text, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { Modal, View, Text, StyleSheet, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import moment from 'moment';
+import { MyContext } from "../contexts";
 
 const ModalTimeline = ({ isVisible, closeModal }) => {
-  const [dados, setDados] = useState([
-    { id: 1, title: "Tarefa 1", date: "01/01/2021" },
-    { id: 2, title: "Tarefa 2", date: "02/01/2021" },
-    { id: 3, title: "Tarefa 3", date: "03/01/2021" },
+  const [desc, setDesc] = useState("");
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Compras", value: "Compras" },
+    { label: "Transporte", value: "Transporte" },
+    { label: "Cozinha", value: "Cozinha" },
   ]);
+
+  const { addEtapas } = useContext(MyContext);
+
+  const salvarEtapa = () => {
+    const data = moment().format("DD/MM/YYYY");
+    const hora = moment().format("HH:MM")
+
+    addEtapas(value, desc, data, hora);
+    setDesc('');
+    setValue('');
+    closeModal();
+  };
 
   return (
     <Modal
@@ -24,9 +42,36 @@ const ModalTimeline = ({ isVisible, closeModal }) => {
           >
             <Text style={styles.modalCloseText}>X</Text>
           </TouchableOpacity>
-          <Text style={styles.modalTitle}>Modal</Text>
+          <Text style={styles.modalTitle}>Adicionar etapa</Text>
 
-          <View style={styles.timelineContainer}>
+          <View style={styles.dropdown}>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              stickyHeader={true}
+              zIndex={1000}
+              //   style={{
+              //     backgroundColor: "crimson"
+              //   }}
+              textStyle={{
+                fontSize: 15,
+              }}
+              placeholder="Selecione a etapa"
+            />
+            <TextInput
+                style={styles.input}
+                value={desc}
+                onChangeText={(text) => setDesc(text)}
+                placeholder="Descrição da tarefa"
+                placeholderTextColor="#333"
+            />
+          </View>
+
+          {/* <View style={styles.timelineContainer}>
             {dados.map((item) => (
               <View style={styles.timelineStep} key={item.id}>
                 <View style={styles.timelineStepNumber} />
@@ -36,8 +81,8 @@ const ModalTimeline = ({ isVisible, closeModal }) => {
                 </View>
               </View>
             ))}
-          </View>
-          <TouchableOpacity style={styles.addButton}>
+          </View> */}
+          <TouchableOpacity style={styles.addButton} onPress={salvarEtapa}>
             <Text style={styles.addButtonText}>Adicionar etapa</Text>
           </TouchableOpacity>
         </View>
@@ -59,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 10,
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
   },
   modalCloseButton: {
@@ -76,46 +121,27 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 20,
+    // marginBottom: 20,
+    // position: "absolute",
+    // top: 15,
   },
   modalText: {
     fontSize: 16,
     color: "#333",
   },
-  timelineContainer: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  timelineStep: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  timelineStepNumber: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#333",
-    marginRight: 20,
-  },
-  timelineStepContent: {
-    flex: 1,
-  },
-  timelineStepTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  timelineStepDate: {
-    fontSize: 14,
-    color: "#333",
+  dropdown: {
+    padding: 10,
+    // position: "absolute",
+    top: 25,
+    width: "80%",
   },
   addButton: {
     backgroundColor: "#333",
     padding: 10,
     borderRadius: 5,
-    marginTop: 20,
+    // marginTop: 20,
+    position: "absolute",
+    bottom: 20,
   },
   addButtonText: {
     color: "#fff",

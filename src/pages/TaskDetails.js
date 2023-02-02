@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
-import ModalTimeline from "../components/ModalTimeline";
+import { useNavigation } from '@react-navigation/native';
+// import ModalTimeline from "../components/ModalTimeline";
 
 const TaskDetails = (props, { route }) => {
   const [showModal, setShowModal] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigation = useNavigation();
 
   const task = props.route.params.task;
 
@@ -43,12 +45,12 @@ const TaskDetails = (props, { route }) => {
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => setShowModal(openModal)}
+          onPress={() => navigation.navigate("Etapas")}
         >
           <Text style={styles.buttonText}>Ver Etapas</Text>
         </TouchableOpacity>
       </View>
-      <ModalTimeline isVisible={isModalVisible} closeModal={closeModal} />
+      {/* <ModalTimeline isVisible={isModalVisible} closeModal={closeModal} /> */}
     </View>
   );
 };

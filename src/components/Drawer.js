@@ -4,6 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import TasksScreen from "../pages/TaskScreen";
 import TaskCreateScreen from "../pages/TaskCreatScreen";
 import TaskDetails from "../pages/TaskDetails";
+import EtapasScreen from "../pages/EtapasScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -29,6 +30,7 @@ const DrawerNavigation = () => (
     <Drawer.Screen name="Tasks" component={TasksScreen} options={{ drawerLabel: "Tarefas" }} />
     <Drawer.Screen name="TaskCreate" component={TaskCreateScreen} options={{ drawerLabel: "Criar Tarefa" }} />
     <Drawer.Screen name="TaskDetails" component={TaskDetails} options={{ drawerLabel: "Detalhes da Tarefa" }}/>
+    <Drawer.Screen name="Etapas" component={EtapasScreen} options={{ drawerLabel: 'Adicionar Etapas' }} />
   </Drawer.Navigator>
 );
 

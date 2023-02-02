@@ -4,13 +4,13 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import MaskedText from "react-native-masked-text";
 // import { TaskContext } from "./TaskScreen";
 // import useAddTask from "../hook/addTask";
 import { MyContext } from "../contexts";
+import moment from "moment";
 
 const TaskCreateScreen = ({ navigation }) => {
   const { addTask } = useContext(MyContext);
@@ -29,6 +29,13 @@ const TaskCreateScreen = ({ navigation }) => {
     setEndDate("");
     setDescription("");
     // navigation.navigate('Tasks');
+  };
+
+  const tempo = () => {
+    const currentDate = moment().format("DD/MM/YYYY");
+    const hour = moment().format("HH:MM")
+
+    console.log(currentDate, hour)
   };
 
   return (
@@ -83,6 +90,9 @@ const TaskCreateScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.addButton} onPress={handleSave}>
           <Text style={styles.buttonText}>Adicionar tarefa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={tempo}>
+          <Text style={styles.buttonText}>Tempo</Text>
         </TouchableOpacity>
       </View>
     </View>
