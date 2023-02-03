@@ -33,9 +33,12 @@ const TaskCreateScreen = ({ navigation }) => {
 
   const tempo = () => {
     const currentDate = moment().format("DD/MM/YYYY");
-    const hour = moment().format("HH:MM")
+    const hour = moment().format("HH:mm:ss")
+
+    const date = new Date();
 
     console.log(currentDate, hour)
+    // console.log(date.getTime());
   };
 
   return (

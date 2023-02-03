@@ -2,28 +2,20 @@ import React, { useState, useContext } from "react";
 import { Modal, View, Text, StyleSheet, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import moment from 'moment';
+import moment from "moment";
 import { MyContext } from "../contexts";
 
 const ModalTimeline = ({ isVisible, closeModal }) => {
   const [desc, setDesc] = useState("");
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Compras", value: "Compras" },
-    { label: "Transporte", value: "Transporte" },
-    { label: "Cozinha", value: "Cozinha" },
-  ]);
 
-  const { addEtapas } = useContext(MyContext);
+  const { addEtapas, items, setItems } = useContext(MyContext);
 
   const salvarEtapa = () => {
-    const data = moment().format("DD/MM/YYYY");
-    const hora = moment().format("HH:MM")
-
-    addEtapas(value, desc, data, hora);
-    setDesc('');
-    setValue('');
+    addEtapas(value, desc);
+    setDesc("");
+    setValue("");
     closeModal();
   };
 
@@ -53,35 +45,21 @@ const ModalTimeline = ({ isVisible, closeModal }) => {
               setValue={setValue}
               setItems={setItems}
               stickyHeader={true}
-              zIndex={1000}
-              //   style={{
-              //     backgroundColor: "crimson"
-              //   }}
               textStyle={{
                 fontSize: 15,
               }}
+              zIndex={999}
               placeholder="Selecione a etapa"
             />
             <TextInput
-                style={styles.input}
-                value={desc}
-                onChangeText={(text) => setDesc(text)}
-                placeholder="Descrição da tarefa"
-                placeholderTextColor="#333"
+              style={styles.input}
+              value={desc}
+              onChangeText={(text) => setDesc(text)}
+              placeholder="Descrição da tarefa"
+              placeholderTextColor="#333"
+              multiline={true}
             />
           </View>
-
-          {/* <View style={styles.timelineContainer}>
-            {dados.map((item) => (
-              <View style={styles.timelineStep} key={item.id}>
-                <View style={styles.timelineStepNumber} />
-                <View style={styles.timelineStepContent}>
-                  <Text style={styles.timelineStepTitle}>{item.title}</Text>
-                  <Text style={styles.timelineStepDate}>{item.date}</Text>
-                </View>
-              </View>
-            ))}
-          </View> */}
           <TouchableOpacity style={styles.addButton} onPress={salvarEtapa}>
             <Text style={styles.addButtonText}>Adicionar etapa</Text>
           </TouchableOpacity>
@@ -113,9 +91,9 @@ const styles = StyleSheet.create({
     top: 5,
   },
   modalCloseText: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: "bold",
-    color: "#333",
+    color: "rgb(169, 0, 0)",
   },
   modalTitle: {
     fontSize: 20,
@@ -132,8 +110,17 @@ const styles = StyleSheet.create({
   dropdown: {
     padding: 10,
     // position: "absolute",
-    top: 25,
-    width: "80%",
+    // top: 25,
+    // zIndex: 10,
+    // width: "80%",
+  },
+  input: {
+    zIndex: -1,
+    height: 40,
+    backgroundColor: "#FFF",
+    marginTop: 10,
+    color: "#000",
+    borderColor: "#000",
   },
   addButton: {
     backgroundColor: "#333",
